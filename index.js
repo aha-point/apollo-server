@@ -1,25 +1,42 @@
-const database = require('./database')
-const { ApolloServer, gql } = require('apollo-server')
-const typeDefs = gql`
-  type Query {
-    teams: [Team]
-  }
+import { ApolloServer } from '@apollo/server';
+import { startStandaloneServer } from '@apollo/server/standalone';
+
+const typeDefs = `
   type Team {
     id: Int
     manager: String
     office: String
-    extension_number: String
-    mascot: String
-    cleaning_duty: String
     project: String
   }
+  type Query {
+    teams: [Team]
+  }
 `
+const teams = [
+  {
+    id: 1,
+    manager: "manager",
+    office: "office",
+    project: "project"
+  },
+  {
+    id: 2,
+    manager: "manager2",
+    office: "office2",
+    project: "project2"
+  },
+]
+
 const resolvers = {
   Query: {
-    teams: () => database.teams
+    teams: () => teams
   }
 }
+
 const server = new ApolloServer({ typeDefs, resolvers })
-server.listen().then(({ url }) => {
-console.log(`🚀  Server ready at ${url}`)
+
+const {url} = await startStandaloneServer(server, {
+  listen: {port:4000}
 })
+
+console.log(`🚀  Server ready at ${url}`);
