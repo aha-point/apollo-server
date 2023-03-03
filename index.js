@@ -1,17 +1,11 @@
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
 
-const typeDefs = `
-  type Team {
-    id: Int
-    manager: String
-    office: String
-    project: String
-  }
-  type Query {
-    teams: [Team]
-  }
-`
+import memberTypeDefs from './member.js';
+import pointTypeDefs from './point.js';
+
+const typeDefs = [memberTypeDefs, pointTypeDefs];
+
 const teams = [
   {
     id: 1,
@@ -27,9 +21,23 @@ const teams = [
   },
 ]
 
+const points = [
+  {
+    id: 1,
+    name: "name",
+    number: "number",
+  },
+  {
+    id: 2,
+    name: "name2",
+    number: "number2",
+  },
+]
+
 const resolvers = {
   Query: {
-    teams: () => teams
+    teams: () => teams,
+    points: () => points
   }
 }
 
