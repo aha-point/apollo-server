@@ -1,6 +1,7 @@
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
 
+// 각 파일마다 프로젝트의 쿼리 작성 예정
 import memberTypeDefs from './member.js';
 import pointTypeDefs from './point.js';
 
