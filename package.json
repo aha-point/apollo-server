@@ -11,15 +11,18 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.21.0",
     "@apollo/gateway": "^0.45.1",
     "@apollo/server": "^4.4.1",
     "apollo": "^2.34.0",
     "apollo-server": "^3.11.1",
     "convert-csv-to-json": "^1.5.0",
     "dd-trace": "^3.0.0",
-    "graphql": "^15.8.0",
+    "graphql": "^16.6.0",
+    "graphql-errors": "^2.1.0",
     "gulp-imagemin": "^7.1.0",
     "nodemon": "^2.0.20",
-    "server": "^1.0.38"
+    "server": "^1.0.38",
+    "type-graphql": "^2.0.0-beta.1"
   }
 }

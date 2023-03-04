@@ -1,5 +1,7 @@
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
+import pkg from 'graphql-errors';
+import axios from 'axios';
 
 // 각 파일마다 프로젝트의 쿼리 작성 예정
 import memberTypeDefs from './member.js';
@@ -35,14 +37,41 @@ const points = [
   },
 ]
 
+// const resolvers = {
+//   Query: {
+//     teams: () => teams,
+//     points: () => points
+//   }
+// }
+
 const resolvers = {
   Query: {
-    teams: () => teams,
-    points: () => points
+    teams: async () => {
+      const response = await axios.post("http://localhost:8080/graphql");
+      return response.data;
+    }
   }
 }
 
-const server = new ApolloServer({ typeDefs, resolvers })
+// const gateway = new ApolloGateway({
+//   serviceList: [
+//     { name: 'stock', url: 'http://localhost:9501/graphql' },
+//     { name: 'entity', url: 'http://localhost:9502/graphql' }
+//   ]
+// });
+
+
+const { formatError } = pkg;
+const server = new ApolloServer({ typeDefs, resolvers,
+  formatError: error => {
+    return {
+      message: error.message,
+      locations: error.locations,
+      path: error.path,
+      ...error.extensions.exception // this line is important!
+    };
+  }
+})
 
 const {url} = await startStandaloneServer(server, {
   listen: {port:4000}
